@@ -26,8 +26,13 @@ function ytdownload()
 #once above 2 methods complete, run this to convert .mp4 to .mp3
 function ytmp3()
 {
+        #rename files with _ for non-alphanumeric chars
+        for i in *.mp4 *.flv; do
+          j=`echo $i | sed -e 's/[^a-zA-Z0-9\-]/_/g' | sed -e 's/_mp4/.mp4/g' | sed -e 's/_flv/.flv/g'`
+          echo "mv \"$i\"  $j" | sh
+        done;
+
           ls | grep -e '.*\.mp4$' | awk '{print "ffmpeg -i "$1" "$1".mp3 &";}' | sh
           ls | grep -e '.*\.flv$' | awk '{print "ffmpeg -i "$1" "$1".mp3 &";}' | sh
 }
-
 
