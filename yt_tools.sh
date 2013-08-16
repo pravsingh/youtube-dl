@@ -10,8 +10,6 @@
 #output: generates *.info.json files with videoid as file name
 function ytlist()
 {
-        mkdir $1
-        cd $1
         youtube-dl -i --get-filename -o "%(id)s"  --write-info-json http://www.youtube.com/playlist?list=$1
 }
 
@@ -21,6 +19,7 @@ function ytdownload()
 
         ls | grep "info.json" | sed -e 's/\./ /g' | awk '{print "youtube-dl -ci -o \"%(title)s.%(ext)s\" --max-quality --restrict-filenames http://www.youtube.com/watch?v="$1" ";}' | sh
 
+        ytmp3
 }
 
 #once above 2 methods complete, run this to convert .mp4 to .mp3
@@ -32,6 +31,10 @@ function ytmp3()
           echo "mv \"$i\"  $j" | sh
         done;
 
-          ls | grep -e '.*\.mp4$' | awk '{print "ffmpeg -i "$1" "$1".mp3 &";}' | sh
-          ls | grep -e '.*\.flv$' | awk '{print "ffmpeg -i "$1" "$1".mp3 &";}' | sh
+          echo "set -x" > convert.sh
+          ls | grep -e '.*\.mp4$' | awk '{print "ffmpeg -n -i "$1" "$1".mp3 ";}' >> convert.sh
+          ls | grep -e '.*\.flv$' | awk '{print "ffmpeg -n -i "$1" "$1".mp3 ";}' >> convert.sh
+
+          chmod 755 convert.sh
+          echo "convert.sh written. execute this to convert to mp3"
 }
