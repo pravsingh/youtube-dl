@@ -5,6 +5,21 @@
 #pre-requisites: ffmpeg, youtube-dl (https://github.com/rg3/youtube-dl)
 #
 
+#compatible with latest version
+#download all json of a playlist: youtube-dl -j --flat-playlist 'https://www.youtube.com/playlist?list=PLEpfh9jiEpYTCquWiIScn6VW0auXoO5bf' > all_json.list
+# cat all_json.list  | sed -e 's/^.*"id": "\(.*\)",.*/youtube-dl -- \1/g'
+#download mp4:  youtube-dl -ci -o "%(title)s.%(ext)s" --restrict-filenames -f mp4 http://www.youtube.com/watch?v=f31WLgRBiRg
+#download playlist in mp4: youtube-dl -cit https://www.youtube.com/playlist?list=PLEpfh9jiEpYTCquWiIScn6VW0auXoO5bf
+#download a single video: youtube-dl -- CqphyHYTzUM
+
+
+function ytdlnew()
+{
+youtube-dl -j --flat-playlist 'https://www.youtube.com/playlist?list=PLEpfh9jiEpYTCquWiIScn6VW0auXoO5bf' > all_json.list
+cat all_json.list  | sed -e 's/^.*"id": "\(.*\)",.*/\1/g' | awk '{print "youtube-dl -ci -o \"%(title)s.%(ext)s\" --restrict-filenames -f mp4 http://www.youtube.com/watch?v="$1" &";}' | sh
+}
+
+
 #downloads the metadata for videos from playlist
 #input: playlist id (e.g. PL18969FDC598E971F of  http://www.youtube.com/playlist?list=PL18969FDC598E971F)
 #output: generates *.info.json files with videoid as file name
