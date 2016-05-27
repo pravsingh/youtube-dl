@@ -1,0 +1,18 @@
+# BASH Function
+function ytdpl()
+{
+        youtube-dl -j --flat-playlist $1  |  sed -e 's/^.*"id": "\(.*\)",.*/\1/g' | awk '{print "youtube-dl -f 140 "$1" &"}'
+}
+
+#Usage: download full playlist in audio format
+ytdpl PLYVjGTi85afoJ0v6o5tZbpNmx9A3QVo6U
+
+#Download a single video in audio format
+youtube-dl -f 140 zmotgOJDKXk
+
+#List the available formats for a video
+youtube-dl -F zmotgOJDKXk
+
+#Download single json for a playlist
+youtube-dl -j  PLYVjGTi85afoJ0v6o5tZbpNmx9A3QVo6U
+
