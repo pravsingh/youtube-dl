@@ -10,3 +10,4 @@ Currently the directory name is with<PLAYLISTID>
 
 Request to Contributers: The current script is written in Bash however this is platform specific. In case someone could write in Python that would be useful to everyone working on different platforms.
 
+refined and better commands @ https://github.com/pravsingh/youtube-dl/blob/master/refined_commands
