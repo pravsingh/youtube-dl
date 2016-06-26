@@ -16,3 +16,6 @@ youtube-dl -F zmotgOJDKXk
 #Download single json for a playlist
 youtube-dl -j  PLYVjGTi85afoJ0v6o5tZbpNmx9A3QVo6U
 
+# download mp3 for a playlist 
+#    youtube-dl --extract-audio --audio-format mp3 "playlist url"
+
