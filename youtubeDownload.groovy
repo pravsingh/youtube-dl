@@ -3,9 +3,9 @@ import groovy.json.*
 
 def playListId = "PL213D03AC396296D6"
 
-// def command = "youtube-dl -j --flat-playlist "+playListId+" > "+playListId+".json"
-// process = [ 'bash', '-c', command].execute()
-// result = process.text
+def command = "youtube-dl -j --flat-playlist "+playListId+" > "+playListId+".json"
+process = [ 'bash', '-c', command].execute()
+result = process.text
 
 
 File downloadFile = new File('download.sh')
