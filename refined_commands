@@ -19,3 +19,9 @@ youtube-dl -j  PLYVjGTi85afoJ0v6o5tZbpNmx9A3QVo6U
 # download mp3 for a playlist 
 #    youtube-dl --extract-audio --audio-format mp3 "playlist url"
 
+# video download with merge
+
+youtube-dl -f 140 qMTCAUhdv-w
+youtube-dl -f 134 qMTCAUhdv-w
+
+ffmpeg -i *qMTCAUhdv-w.mp4 -i *qMTCAUhdv-w.m4a -c:v copy -c:a aac -strict experimental qMTCAUhdv-w.mp4
