@@ -8,6 +8,11 @@ process = [ 'bash', '-c', command].execute()
 result = process.text
 
 
+File downloadFile = new File('download.sh')
+
+downloadFile.write " "
+
+
 File jsonFile = new File( playListId+".json" )
 
 jsonFile.eachLine { line ->
@@ -20,13 +25,14 @@ jsonFile.eachLine { line ->
 
         println videoJson.id+" -> "+videoJson.title
 
-
-        println "\t    rm -f *"+videoJson.id+"*"
-        println "\t    youtube-dl -f 140 "+videoJson.id+" -o "+videoJson.id+".m4a &"  //audio
-        println "\t    youtube-dl -f 134 "+videoJson.id+" -o "+videoJson.id+".mp4 &"  // video
-        println "\t    wait"
+        downloadFile.append "\t   echo 'downloading "+videoJson.id+ "' \n\n"
+        downloadFile.append "\t    rm -f *"+videoJson.id+"*" + "\n"
+        downloadFile.append "\t    youtube-dl -f 140 "+videoJson.id+" -o "+videoJson.id+".m4a &"  + "\n" //audio
+        downloadFile.append "\t    youtube-dl -f 134 "+videoJson.id+" -o "+videoJson.id+".mp4 &"  + "\n" // video
+        downloadFile.append "\t    wait" + "\n"
         //merge audio & video
-        println "\t    ffmpeg -i "+videoJson.id+".mp4 -i "+videoJson.id+".m4a -c:v copy -c:a aac -strict experimental \'"+videoJson.title+".mp4\'"
+        downloadFile.append "\t    ffmpeg -i "+videoJson.id+".mp4 -i "+videoJson.id+".m4a -c:v copy -c:a aac -strict experimental \'"+videoJson.title+".mp4\'" + "\n"
+        downloadFile.append "\t    rm -f *"+videoJson.id+"*" + "\n"
 
     }
 
