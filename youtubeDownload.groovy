@@ -3,9 +3,9 @@ import groovy.json.*
 
 def playListId = "PL213D03AC396296D6"
 
-def command = "youtube-dl -j --flat-playlist "+playListId+" > "+playListId+".json"
-process = [ 'bash', '-c', command].execute()
-result = process.text
+//def command = "youtube-dl -j --flat-playlist "+playListId+" > "+playListId+".json"
+//process = [ 'bash', '-c', command].execute()
+//result = process.text
 
 
 File downloadFile = new File('download.sh')
@@ -14,8 +14,8 @@ downloadFile.write " "
 
 def vidTitleMap = [:]
 
-def PARREL_DOWNLOADS = 20
-def PARREL_CONVERSIONS = 50
+def PARREL_DOWNLOADS = 10
+def PARREL_CONVERSIONS = 20
 
 File jsonFile = new File( playListId+".json" )
 
@@ -30,16 +30,22 @@ jsonFile.eachLine { line ->
 
         vidTitleMap.put(videoJson.id, videoJson.title)
 
-        downloadFile.append "\n\n\t    echo 'downloading[${count}] ${videoJson.id}' \n"
-        downloadFile.append "\t    rm -f *${videoJson.id}*\n"
-        downloadFile.append "\t    youtube-dl -f 140 ${videoJson.id} -o temp_${videoJson.id}.m4a &"  + "\n" //audio
-        downloadFile.append "\t    youtube-dl -f 134 ${videoJson.id} -o temp_${videoJson.id}.mp4 &"  + "\n" // video
+	File audioFile = new File("temp_${videoJson.id}.mp4")
+	File videoFile = new File("temp_${videoJson.id}.m4a")
 
-        if(count % PARREL_DOWNLOADS == 0) {
-           downloadFile.append "\n\n\t    wait \n"
-        }
+	//download if not already downloaded	
+	if(!audioFile.exists() && !videoFile.exists()) {
+		downloadFile.append "\n\n\t    echo 'downloading[${count}] ${videoJson.id}' \n"
+		downloadFile.append "\t    rm -f *${videoJson.id}*\n"
+		downloadFile.append "\t    youtube-dl -f 140 ${videoJson.id} -o temp_${videoJson.id}.m4a &"  + "\n" //audio
+		downloadFile.append "\t    youtube-dl -f 134 ${videoJson.id} -o temp_${videoJson.id}.mp4 &"  + "\n" // video
 
-        count++
+		if(count % PARREL_DOWNLOADS == 0) {
+		   downloadFile.append "\n\n\t    wait \n"
+		}
+
+		count++
+	}
 
     }
 }
