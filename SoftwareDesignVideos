@@ -1,0 +1,29 @@
+install 2 tools using:
+brew install youtube-dl
+brew install jq
+
+I have collected playlists from Tushar Roy and SuccessInTech channels and below are commands to download them all in mp4 format.
+
+
+rm -f ytinfo.json
+touch ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlps7GJJWW9I7N0P0rB0C3eY2 >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlptzAvGVMbeEQvE66ws0PR6a >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpuE5GEMDXWf0PWbBD9Ga1lO >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpvyRmZhZxSMmSfAlKetBFYa >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpvm7VaC0NTR27A >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpslxZUHHWmfOzNn6cA7jvyh >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpvuAYuvjwxk8EbvpjPnXUGp >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpuAaSqoBfHwsJ4E >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpuabaNXrs96Vm3zsZQ9owe >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpu2f2g8ltqaaCZiq6GJvl1j >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpuAaSqoBfHwsJ4E >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpv >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpsHaNTPP >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlptv >> ytinfo.json
+youtube-dl -j --flat-playlist PLrmLmBdmIlpvxhscYQdvfFNWU >> ytinfo.json
+youtube-dl -j --flat-playlist PLA8lYuzFlBqAy6dkZHj5VxUAaqr4vwrka >> ytinfo.json
+
+
+cat ytinfo.json | jq '.id' | sed -e 's/"//g' | sort | uniq | awk '{print "youtube-dl https://www.youtube.com/watch?v="$1;}' | sh
+
